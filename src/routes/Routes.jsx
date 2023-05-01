@@ -40,7 +40,7 @@ const router = createBrowserRouter([
          {
             path: ':categoryId',
             element: <Category></Category>,
-            loader: ({ params }) => fetch(`http://localhost:5000/categories/${params.categoryId}`)
+            loader: ({ params }) => fetch(`https://the-dragon-sever-side-maazihad.vercel.app/categories/${params.categoryId}`)
          }
       ]
    },
@@ -51,7 +51,7 @@ const router = createBrowserRouter([
          {
             path: ":newsId",
             element: <PrivateRoute><News></News></PrivateRoute>,
-            loader: ({ params }) => fetch(`http://localhost:5000/news/${params.newsId}`)
+            loader: ({ params }) => fetch(`https://the-dragon-sever-side-maazihad.vercel.app/news/${params.newsId}`)
          }
       ]
    }
