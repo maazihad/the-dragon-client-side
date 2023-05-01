@@ -5,8 +5,15 @@ import { Link } from 'react-router-dom';
 import { FaUserCircle } from 'react-icons/fa';
 
 const NavigationBar = () => {
-   const { user } = useContext(AuthContext);
+   const { user, logOut } = useContext(AuthContext);
 
+   const handleLogOut = () => {
+      logOut()
+         .then()
+         .catch((err) => {
+            console.log(err.message);
+         });
+   };
 
    return (
       <Container>
@@ -32,7 +39,7 @@ const NavigationBar = () => {
 
                      {
                         user
-                           ? <Button variant="primary">Logout</Button>
+                           ? <Button onClick={handleLogOut} variant="primary">Logout</Button>
                            : <Link to="/login">
                               <Button variant="primary">Login</Button>
                            </Link>

@@ -1,12 +1,43 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Button, Container, Form } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../../Providers/AuthProvider';
 
 const Login = () => {
+
+   const { signIn } = useContext(AuthContext);
+   const navigate = useNavigate();
+   const location = useLocation();
+   console.log("login page location", location);
+
+   const from = location.state?.from?.pathname || '/category/0';
+
+   const handleLogin = event => {
+      event.preventDefault();
+
+      const form = event.target;
+      const email = form.email.value;
+      const password = form.password.value;
+
+      form.reset('');
+      signIn(email, password)
+         .then(result => {
+            const loggedUser = result.user;
+            console.log(loggedUser);
+            navigate(from, { replace: true });
+         })
+         .catch(err => {
+            console.log(err.message);
+         });
+
+      console.log(email, password);
+   };
+
+
    return (
       <Container>
          <h2 className='text-center mb-0 text-primary mt-3 fw-bolder'>Please Login !!!</h2>
-         <Form className='w-50 mx-auto bg-info m-3 p-5 rounded-4'>
+         <Form onSubmit={handleLogin} className='w-50 mx-auto bg-info m-3 p-5 rounded-4 '>
             <Form.Group className="mb-3" controlId="formBasicEmail">
                <Form.Label>Email address</Form.Label>
                <Form.Control type="email" name="email" placeholder="Enter email" required />
@@ -17,9 +48,9 @@ const Login = () => {
                <Form.Control type="password" name="password" placeholder="Password" required />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formBasicCheckbox">
+            {/* <Form.Group className="mb-3" controlId="formBasicCheckbox">
                <Form.Check type="checkbox" label="Check me out" />
-            </Form.Group>
+            </Form.Group> */}
             <Button variant="primary" type="submit">
                Login
             </Button>
